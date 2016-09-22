@@ -1,4 +1,6 @@
 ;(scroll-bar-mode nil);隐藏滚动条，但无效
+(set-cursor-color "white");
+
 (customize-set-variable 'scroll-bar-mode 'right);滚动条到右侧去
 (menu-bar-mode -1);隐藏菜单栏
 ;(tool-bar-mode -1);隐藏工具栏
@@ -289,7 +291,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (qiang-set-font
  '("DejaVu Sans Mono" "Monaco" "Andale Mono" "Menlo" "Consolas" "Courier New" "Monospace") ":pixelsize=18"
- '("Microsoft Yahei" "文泉驿等宽微米黑" "黑体" "新宋体" "宋体")
+ '("Microsoft Yahei" "文泉驿等宽微米黑" "华文黑体" "黑体" "新宋体" "宋体")
  )
 ;;设置字体字号结束
 
@@ -349,3 +351,12 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;append /usr/local/bin in exec-path under OSX
 ;;so that we can use "cscope"
 (setq exec-path (append '("/usr/local/bin") exec-path))
+
+;; org mode
+;; The following lines are always needed. Choose your own keys.
+;(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+;(add-hook 'org-mode-hook 'turn-on-font-lock) ; not needed when global-font-lock-mode is on
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cb" 'org-iswitchb)
