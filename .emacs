@@ -213,6 +213,9 @@
 ;(global-semantic-idle-tag-highlight-mode 1)
 (global-semantic-decoration-mode 1);a line above func name
 (global-semantic-highlight-edits-mode 1);highlight recent changes
+
+(setq semantic-idle-scheduler-idle-time 432000);use too much CPU?
+;(semantic-idle-scheduler-mode 1);
  
 (eval-after-load "semantic-c"
 '(dolist (d (list
@@ -289,13 +292,26 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
     )
   )
 
-(qiang-set-font
- '("DejaVu Sans Mono" "Monaco" "Andale Mono" "Menlo" "Consolas" "Courier New" "Monospace") ":pixelsize=18"
- '("Microsoft Yahei" "文泉驿等宽微米黑" "华文黑体" "黑体" "新宋体" "宋体")
- )
+;; 解决client模式下的字体问题
+(add-hook 'after-make-frame-functions
+          (lambda (frame)
+            (select-frame frame)
+            (if (window-system frame)
+                    (qiang-set-font
+		     '("DejaVu Sans Mono" "Monaco" "Andale Mono" "Menlo" "Consolas" "Courier New" "Monospace") ":pixelsize=18"
+		     '("Microsoft Yahei" "文泉驿等宽微米黑" "华文黑体" "黑体" "新宋体" "宋体")
+		     )
+	      ))
+	  )
+
+(if window-system
+    (qiang-set-font
+     '("DejaVu Sans Mono" "Monaco" "Andale Mono" "Menlo" "Consolas" "Courier New" "Monospace") ":pixelsize=18"
+     '("Microsoft Yahei" "文泉驿等宽微米黑" "华文黑体" "黑体" "新宋体" "宋体")
+     ))
+
 ;;设置字体字号结束
-
-
+  
 
 ;;MELPA, see http://melpa.org
 (require 'package) ;; You might already have this line
@@ -348,6 +364,14 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (cscope-setup)
 ;;(setq cscope-set-initial-directory "~/kernel/linux-3.2.0")
 
+(define-key global-map (kbd "C-c s s") 'cscope-find-this-symbol)
+(define-key global-map (kbd "C-c s d") 'cscope-find-global-definition)
+(define-key global-map (kbd "C-c s =") 'cscope-find-assignments-to-this-symbol)
+(define-key global-map (kbd "C-c s c") 'cscope-find-functions-calling-this-function)
+(define-key global-map (kbd "C-c s C") 'cscope-find-called-functions)
+(define-key global-map (kbd "C-c s i") 'cscope-find-files-including-file)
+(define-key global-map (kbd "C-c s f") 'cscope-find-this-file)
+
 ;;append /usr/local/bin in exec-path under OSX
 ;;so that we can use "cscope"
 (setq exec-path (append '("/usr/local/bin") exec-path))
@@ -360,3 +384,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-cb" 'org-iswitchb)
+
+;; pig-mode
+(require 'pig-mode)
