@@ -3,7 +3,7 @@
 
 (customize-set-variable 'scroll-bar-mode 'right);滚动条到右侧去
 (menu-bar-mode -1);隐藏菜单栏
-;(tool-bar-mode -1);隐藏工具栏
+(tool-bar-mode -1);隐藏工具栏
 (mouse-avoidance-mode 'animate);光标靠近鼠标指针时，让鼠标指针自动走开
 ;;ibuffer
 (require 'ibuffer)
