@@ -277,8 +277,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (require 'yasnippet)
 (setq yas-snippet-dirs
       '("~/.emacs.d/snippets"                 ;; personal snippet
-	"~/.emacs.d/plugins/snippets"))
-(yas/global-mode 1)
+	"~/.emacs.d/plugins/yasnippet-snippets/snippets"))
+(yas-global-mode 1)
 
 ;;auto-complete
 (add-to-list 'load-path "~/.emacs.d/plugins/auto-complete")
