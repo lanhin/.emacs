@@ -1,9 +1,13 @@
 ;(scroll-bar-mode nil);隐藏滚动条，但无效
 (set-cursor-color "white");
 
+;; 使用空格替换 tab 进行缩进
+;(setq-default indent-tabs-mode nil)
+;(setq default-tab-width 4)
+
 (customize-set-variable 'scroll-bar-mode 'right);滚动条到右侧去
 (menu-bar-mode -1);隐藏菜单栏
-(tool-bar-mode -1);隐藏工具栏
+;(tool-bar-mode -1);隐藏工具栏
 (mouse-avoidance-mode 'animate);光标靠近鼠标指针时，让鼠标指针自动走开
 ;;ibuffer
 (require 'ibuffer)
@@ -14,38 +18,12 @@
 (color-theme-initialize);color theme 初始化
 (color-theme-calm-forest);选择默认theme（calm forest)
 
-;; EMMS
-;(add-to-list 'load-path "/usr/share/emacs/site-lisp/emms/")
-;(require 'emms-setup)
-;(emms-standard)
-;(emms-default-players)
-;(setq emms-repeat-playlist t
-;      emms-source-file-default-directory "/media/New/Meizu数据备份/Music/"
-;      emms-lyrics-coding-system nil     ;; let emacs to identify the encode of lyrics
-;      emms-lyrics-dir "/media/New/Meizu数据备份/Music")
-;; show info at mode-line
-;(require 'emms-mode-line)
-;(emms-mode-line 1)
-;; show time of music
-;(require 'emms-playing-time)
-;(emms-playing-time 1)
-;; show lyrics
-;(require 'emms-lyrics)
-;(emms-lyrics 1)
-;; auto identify encode
-;(require 'emms-i18n)
-;; auto save and import playlist
-;(require 'emms-history)
-;(emms-history-load)
-;;emms 快捷键
-;(global-set-key (kbd "<f6>") 'emms-play-directory)
-;(global-set-key (kbd "<f7>") 'emms-playlist-mode-go)
-
 ;需要安装emacs-goodies-el，或直接下载htmlize.el
-(add-to-list 'load-path "~/.emacs.d/plugins")
+(add-to-list 'load-path "~/.emacs.d/plugins/emacs-htmlize")
 (require 'htmlize)
+
 ;**muse
-(add-to-list 'load-path "~/.emacs.d/muse-3.20/lisp")
+(add-to-list 'load-path "~/.emacs.d/muse/lisp")
 (require 'muse-mode)
 (require 'muse-html)
 (require 'muse-latex)
@@ -101,8 +79,8 @@
 \\thispagestyle{empty}
 \\newpage
 <lisp>(and muse-publish-generate-contents
-           (not muse-latex-permit-contents-tag)
-           \"\\\\tableofcontents\n\\\\newpage\")</lisp>\n\n")
+	   (not muse-latex-permit-contents-tag)
+	   \"\\\\tableofcontents\n\\\\newpage\")</lisp>\n\n")
 
 (setq muse-latex-pdf-program "xelatex")
 ;xelatex环境下发布pdf：pdf
@@ -141,8 +119,8 @@
 \\thispagestyle{empty}
 \\newpage
 <lisp>(and muse-publish-generate-contents
-           (not muse-latex-permit-contents-tag)
-           \"\\\\tableofcontents\n\\\\setcounter{page}{1}\n\\\\newpage\")</lisp>\n\n")
+	   (not muse-latex-permit-contents-tag)
+	   \"\\\\tableofcontents\n\\\\setcounter{page}{1}\n\\\\newpage\")</lisp>\n\n")
 
 ;设置muse-latex-slides-header，以支持中文幻灯片
 ;(setq muse-latex-pdf-program "pdflatex")
@@ -184,7 +162,7 @@
 \\frame{\\titlepage}
 
 <lisp>(and muse-publish-generate-contents
-           \"\\\\frame{\\\\frametitle{目录}\\\\tableofcontents}\")</lisp>\n\n")
+	   \"\\\\frame{\\\\frametitle{目录}\\\\tableofcontents}\")</lisp>\n\n")
 
 
 ;Muse 扩展风格
@@ -197,54 +175,22 @@
 :header 'muse-latex-slides-header
 :tags 'muse-latex-slides-markup-tags)
 
-
-;CEDET setup
-(add-to-list 'load-path "~/.emacs.d/plugins/cedet-1.1/common")
-(require 'cedet)
-(require 'semantic-ia)
-;(semantic-load-enable-minimum-features)
-(semantic-load-enable-code-helpers)
-;(semantic-load-enable-guady-code-helpers)
-;(semantic-load-enable-excessive-code-helpers)
-;(semantic-load-enable-semantic-debugging-helpers)
-
-(global-semantic-stickyfunc-mode 1);display func name on the top
-(global-semantic-highlight-func-mode 1);highlight func name
-;(global-semantic-idle-tag-highlight-mode 1)
-(global-semantic-decoration-mode 1);a line above func name
-(global-semantic-highlight-edits-mode 1);highlight recent changes
-
-(setq semantic-idle-scheduler-idle-time 432000);use too much CPU?
-;(semantic-idle-scheduler-mode 1);
- 
-(eval-after-load "semantic-c"
-'(dolist (d (list
-"/usr/local/include"
-"/usr/include"
-"/usr/include/mpi"))
-(semantic-add-system-include d)))
-
-(eval-after-load "semantic-complete"
-'(setq semantic-complete-inline-analyzer-displayor-class
-semantic-displayor-ghost))
-
 ;dot
-(load "graphviz-dot-mode.el" nil t t)
-(put 'upcase-region 'disabled nil)
+(add-to-list 'load-path "~/.emacs.d/plugins/graphviz-dot-mode")
+(require 'graphviz-dot-mode)
+(add-hook 'graphviz-dot-mode-hook 'hs-minor-mode) ;代码折叠
+(add-hook 'graphviz-dot-mode-hook 'company-mode) ;自动补全
 
-;linum-mode
-(global-linum-mode 1);always show line numbers
-(line-number-mode -1);turn off line# in status bar
-(which-func-mode 1);display func name in status bar
+;line numbers
+(global-display-line-numbers-mode)
 
 ;keyset
 (global-set-key "\r" 'newline-and-indent)
-(global-set-key [(f9)] 'compile)
-(global-set-key [(f5)] 'speedbar)
-(global-set-key [(C-tab)] 'semantic-ia-complete-symbol-menu)
+;(global-set-key [(f9)] 'compile)
+;(global-set-key [(f5)] 'speedbar)
 
-(global-set-key (kbd "C-c -") 'senator-fold-tag)
-(global-set-key (kbd "C-c =") 'senator-unfold-tag)
+;(global-set-key (kbd "C-c -") 'senator-fold-tag)
+;(global-set-key (kbd "C-c =") 'senator-unfold-tag)
 
 
 ;设置字体字号
@@ -253,26 +199,26 @@ semantic-displayor-ghost))
       nil t))
 
 (defun qiang-make-font-string (font-name font-size)
-  (if (and (stringp font-size) 
-           (equal ":" (string (elt font-size 0))))
+  (if (and (stringp font-size)
+	   (equal ":" (string (elt font-size 0))))
       (format "%s%s" font-name font-size)
     (format "%s %s" font-name font-size)))
 
 (defun qiang-set-font (english-fonts
-                       english-font-size
-                       chinese-fonts
-                       &optional chinese-font-size)
+		       english-font-size
+		       chinese-fonts
+		       &optional chinese-font-size)
   "english-font-size could be set to \":pixelsize=18\" or a integer.
 If set/leave chinese-font-size to nil, it will follow english-font-size"
-  (require 'cl)                         ; for find if
+  (require 'cl-lib)                         ; for cl-find-if
   (let ((en-font (qiang-make-font-string
-                  (find-if #'qiang-font-existsp english-fonts)
-                  english-font-size))
-        (zh-font (font-spec :family (find-if #'qiang-font-existsp chinese-fonts)
-                            :size chinese-font-size)))
- 
+		  (cl-find-if #'qiang-font-existsp english-fonts)
+		  english-font-size))
+	(zh-font (font-spec :family (cl-find-if #'qiang-font-existsp chinese-fonts)
+			    :size chinese-font-size)))
+
     ;; Set the default English font
-    ;; 
+    ;;
     ;; The following 2 method cannot make the font settig work in new frames.
     ;; (set-default-font "Consolas:pixelsize=18")
     ;; (add-to-list 'default-frame-alist '(font . "Consolas:pixelsize=18"))
@@ -280,24 +226,24 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
     (message "Set English Font to %s" en-font)
     (set-face-attribute
      'default nil :font en-font)
- 
-    ;; Set Chinese font 
+
+    ;; Set Chinese font
     ;; Do not use 'unicode charset, it will cause the english font setting invalid
     (message "Set Chinese Font to %s" zh-font)
     (dolist (charset '(kana han symbol cjk-misc bopomofo))
       (set-fontset-font (frame-parameter nil 'font)
-                        charset
-                        zh-font)
+			charset
+			zh-font)
       )
     )
   )
 
 ;; 解决client模式下的字体问题
 (add-hook 'after-make-frame-functions
-          (lambda (frame)
-            (select-frame frame)
-            (if (window-system frame)
-                    (qiang-set-font
+	  (lambda (frame)
+	    (select-frame frame)
+	    (if (window-system frame)
+		    (qiang-set-font
 		     '("DejaVu Sans Mono" "Monaco" "Andale Mono" "Menlo" "Consolas" "Courier New" "Monospace") ":pixelsize=18"
 		     '("Microsoft Yahei" "文泉驿等宽微米黑" "华文黑体" "黑体" "新宋体" "宋体")
 		     )
@@ -311,7 +257,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
      ))
 
 ;;设置字体字号结束
-  
+
 
 ;;MELPA, see http://melpa.org
 (require 'package) ;; You might already have this line
@@ -319,7 +265,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 	     ;;for melpa-stable
 	     ;'("melpa-stable" . "http://stable.melpa.org/packages/") t)
 ;;for melpa
-             '("melpa" . "http://melpa.org/packages/") t)
+	     '("melpa" . "http://melpa.org/packages/") t)
 (when (< emacs-major-version 24)
   ;; For important compatibility libraries like cl-lib
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
@@ -327,13 +273,15 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 ;;yasnippet
 (add-to-list 'load-path
-              "~/.emacs.d/plugins/yasnippet")
+	      "~/.emacs.d/plugins/yasnippet")
 (require 'yasnippet)
-;(yas/load-directory "~/.emacs.d/plugins/yasnippet/snippets")
+(setq yas-snippet-dirs
+      '("~/.emacs.d/snippets"                 ;; personal snippet
+	"~/.emacs.d/plugins/snippets"))
 (yas/global-mode 1)
 
 ;;auto-complete
-;(add-to-list 'load-path "~/.emacs.d/plugins")
+(add-to-list 'load-path "~/.emacs.d/plugins/auto-complete")
 (require 'auto-complete-config)
 
 ;;;###autoload
@@ -385,5 +333,11 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-cb" 'org-iswitchb)
 
-;; pig-mode
-(require 'pig-mode)
+;; 存盘前删除行末多余的空格/空行
+;(add-hook 'before-save-hook (lambda () (whitespace-cleanup)))
+
+;; desktop
+(setq desktop-path '("~/.emacs.d/"))
+(desktop-save-mode 1)
+(setq desktop-auto-save-timeout 1200)
+(desktop-read)

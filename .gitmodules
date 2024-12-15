@@ -1,0 +1,21 @@
+[submodule "plugins/xcscope.el"]
+	path = plugins/xcscope.el
+	url = https://github.com/dkogan/xcscope.el.git
+[submodule "plugins/yasnippet"]
+	path = plugins/yasnippet
+	url = https://github.com/capitaomorte/yasnippet
+[submodule "plugins/yasnippet-snippets"]
+	path = plugins/yasnippet-snippets
+	url = https://github.com/AndreaCrotti/yasnippet-snippets.git
+[submodule "plugins/auto-complete"]
+	path = plugins/auto-complete
+	url = https://github.com/auto-complete/auto-complete.git
+[submodule "plugins/graphviz-dot-mode"]
+	path = plugins/graphviz-dot-mode
+	url = https://github.com/ppareit/graphviz-dot-mode.git
+[submodule "plugins/emacs-htmlize"]
+	path = plugins/emacs-htmlize
+	url = https://github.com/hniksic/emacs-htmlize.git
+[submodule "muse"]
+	path = muse
+	url = https://github.com/alexott/muse.git
