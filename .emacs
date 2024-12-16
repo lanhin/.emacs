@@ -281,6 +281,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (yas-global-mode 1)
 
 ;;auto-complete
+(add-to-list 'load-path "~/.emacs.d/plugins/popup-el")
 (add-to-list 'load-path "~/.emacs.d/plugins/auto-complete")
 (require 'auto-complete-config)
 

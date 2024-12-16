@@ -19,3 +19,6 @@
 [submodule "muse"]
 	path = muse
 	url = https://github.com/alexott/muse.git
+[submodule "plugins/popup-el"]
+	path = plugins/popup-el
+	url = https://github.com/auto-complete/popup-el.git
